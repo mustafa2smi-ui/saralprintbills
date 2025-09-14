@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CalcNote Style</title>
+
+<style>
+  :root{
+    --bg:#2c3e50; --paper:#0D0D0D;/*#34495e; */--ink:#ecf0f1; --muted:#bdc3c7;
+    --accent:#f1c40f; --accent2:#f39c12; --danger:#e74c3c; --line:#46627f;
+    --shadow:rgba(0, 0, 0, 0.4);
+    --border:#f1c40f;
+    --dotted-line: #4a6580;
+  }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 0;
+  }
+
+  .wrap{
+    max-width:900px;
+    width: 100%;
+    margin: 20px auto;
+    padding:0 14px
+  }
+  .controls{
+    display:flex; align-items:center; gap:12px; margin-bottom:16px;
+  }
+  #meta{color:var(--muted); font-size:14px; font-weight:500;}
+  .spacer{flex:1}
+  .btn{
+    background: linear-gradient(to bottom, #f1c40f, #f39c12);
+    color:#2c3e50; border:1px solid #f39c12; padding:8px 16px; border-radius:4px;
+    cursor:pointer; font-weight:600; box-shadow:0 2px 6px var(--shadow);
+    transition: all 0.2s ease;
+  }
+  .btn:hover {
+    background: linear-gradient(to bottom, #f39c12, #e67e22);
+    box-shadow:0 4px 8px var(--shadow);
+  }
+  .btn:active{
+    transform:translateY(1px);
+    box-shadow:0 1px 3px var(--shadow);
+  }
+
+  /* A4 paper style with golden border and dark gray background */
+  .paper{
+    background:var(--paper);
+    border-radius:6px;
+    border: 2px solid var(--border);
+    box-shadow:
+      0 12px 30px var(--shadow),
+      0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow:hidden;
+    position: relative;
+    padding: 30px;
+  }
+  
+  /* Subtle paper texture */
+  .paper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: 
+      linear-gradient(rgba(241, 196, 15, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(241, 196, 15, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* rows */
+  #container{padding:4px 0}
+  .row{
+    display:flex; align-items:center;
+    border-bottom:1px dotted var(--dotted-line);
+    padding:6px 0;
+    position: relative;
+    z-index: 2;
+  }
+  .row:last-child{
+    border-bottom:1px dotted var(--dotted-line);
+  }
+  .sl{
+    width:40px; color:var(--accent); text-align:right;
+    margin-right:10px; font-weight:700; opacity:.95;
+    font-size: 15px;
+  }
+  .input{
+    flex:1; outline:none; white-space:pre-wrap; min-height:22px;
+    color: var(--ink);
+    font-family: inherit;
+    border: none;
+    padding: 3px 0;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .input:focus {
+    background: rgba(241, 196, 15, 0.1);
+    border-radius: 3px;
+    padding: 3px 6px;
+    margin: 0 -6px;
+  }
+  .result{
+    width:110px; text-align:right; color:var(--accent2);
+    font-weight:700; font-variant-numeric:tabular-nums;
+    font-size: 15px;
+  }
+
+  /* totals area */
+  .totals{
+    border-top:2px solid var(--border);
+    padding:16px 0 10px;
+    background: transparent;
+    position: relative;
+    z-index: 2;
+    margin-top: 8px;
+  }
+  .total{
+    text-align:right; font-weight:800; color:var(--accent);
+    font-variant-numeric:tabular-nums;
+    font-size: 1.15em;
+  }
+  .words{
+    margin-top:6px; color:var(--muted); font-size:14px; text-align:right;
+    font-style: italic;
+    font-weight: 500;
+  }
+/* Previous Balance box with number input validation */
+/*
+  .previous-balance {
+    text-align: right;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    padding: 2px;
+    border-radius: 2px;
+    outline: none;
+  }
+*/
+  /* Previous Balance box small + styled */
+.previous-balance {
+  display:inline-block;
+  text-align: right;
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  outline: none;
+  min-width: 80px;   /* छोटा width */
+  max-width: 120px;  /* limit */
+}
+  .previous-balance:empty::before{
+      content: "Previous Balance";
+      color: var(--muted);
+  }
+  /* Remark styling with underline */
+  .remark{
+    text-align:center;
+    padding:10px 8px;
+    font-weight:600;
+    color:var(--accent);
+    border-bottom: 2px solid var(--border) !important;
+    outline:none;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    margin: 4px 0;
+  }
+
+  .remark:last-of-type{
+    border-top: 2px solid var(--border) !important;
+    border-bottom: none !important;
+    margin-top: 12px;
+  }
+
+  .remark:empty:before{
+    content:attr(data-placeholder);
+    color:var(--muted);
+    font-weight:400;
+  }
+  
+  /* Prevent new lines in remark */
+  .remark[contenteditable="true"] {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .remark[contenteditable="true"] br {
+    display: none;
+  }
+  .remark[contenteditable="true"] * {
+    display: inline;
+  }
+  
+  /* Header with improved contrast */
+  .header {
+    text-align: center;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .header h1 {
+    color: var(--accent);
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .header p {
+    color: var(--muted);
+    margin: 4px 0 0;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="controls">
+    <button id="clearBtn" class="btn" style="background:var(--danger); color:#fff;">Clear All</button>
+    <div class="spacer"></div>
+    <button id="saveBtn" class="btn">Save as Image</button>
+  </div>
+
+  <div id="paper" class="paper">
+    <div class="header">
+      <div id="meta" style="color:var(--ink); font-weight:bold; position:absolute; top:10px; left:10px;">
+
+        <span id="date"></span> <span id="time"></span>
+
+    </div>
+      <br>
+      <h1>INVOICE CALCULATOR</h1>
+      <p>Professional Billing Solution</p>
+    </div>
+    
+    <div class="remark" contenteditable="true" maxlength="20" data-placeholder="Customer Name"></div>
+    <div id="container"></div>
+    <div class="remark" contenteditable="true" maxlength="20" data-placeholder="Payment Method (Cash/Credit)"></div>
+    <div class="totals">
+      <div id="total" class="total">Total = 0</div>
+      <div id="totalWords" class="words">In Words: Zero Rupees Only</div>
+      <lable> Previous Balance 
+        </lable>
+      <div class="previous-balance" contenteditable="true" 
+           data-placeholder="Previous Balance" 
+           maxlength="10"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+(function(){
+  const container = document.getElementById("container");
+  const totalBox  = document.getElementById("total");
+  const totalWordsBox = document.getElementById("totalWords");
+  const dateEl = document.getElementById("date");
+  const timeEl = document.getElementById("time");
+  const saveBtn = document.getElementById("saveBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  const remarkDivs = document.querySelectorAll('.remark');
+  
+  // FIX: This variable was declared twice. Removed the duplicate.
+  const previousBalanceEl = document.querySelector(".previous-balance");
+
+  /* ---------- Utils ---------- */
+  function setCaretToEnd(el){
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false); // caret at end
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  function nowDateTimeTick(){
+    const now = new Date();
+    dateEl.textContent = now.toLocaleDateString('en-IN', {year:'numeric', month:'short', day:'numeric'});
+    timeEl.textContent = now.toLocaleTimeString('en-IN', {hour: '2-digit', minute:'2-digit', second:'2-digit', hour12:true});
+  }
+  setInterval(nowDateTimeTick, 1000);
+  nowDateTimeTick();
+
+  function evalExpr(expr){
+    try{
+      const js=expr.replace(/\^/g,"**");
+      const val=Function('"use strict";return('+js+')')();
+      if(typeof val==="number" && isFinite(val))
+        return Number.isInteger(val)?val:parseFloat(val.toFixed(6));
+    }catch(e){}
+    return 0;
+  }
+
+  // Indian number words (Rupees & Paise)
+  function numberToWordsIndian(num){
+    num = Math.floor(Math.abs(num));
+    if (num === 0) return "Zero";
+    const ones = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven",
+      "Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+    const tens = ["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
+
+    function twoDigits(n){
+      if(n<20) return ones[n];
+      const t=Math.floor(n/10), o=n%10;
+      return tens[t] + (o?(" " + ones[o]):"");
+    }
+    function threeDigits(n){
+      const h=Math.floor(n/100), r=n%100;
+      return (h?ones[h]+" Hundred":"") + (h&&r?" ":"") + (r?twoDigits(r):"");
+    }
+
+    let words = "";
+    const crore = Math.floor(num/10000000); num%=10000000;
+    const lakh  = Math.floor(num/100000);   num%=100000;
+    const thou  = Math.floor(num/1000);     num%=1000;
+    const hund  = num;
+
+    if(crore) words += threeDigits(crore) + " Crore";
+    if(lakh)  words += (words?" ":"") + twoDigits(lakh) + " Lakh";
+    if(thou)  words += (words?" ":"") + twoDigits(thou) + " Thousand";
+    if(hund)  words += (words?" ":"") + threeDigits(hund);
+
+    return words.trim();
+  }
+
+  function totalInWords(amt){
+    const rupees = Math.floor(amt);
+    const paise = Math.round((amt - rupees) * 100);
+    let s = numberToWordsIndian(rupees) + " Rupees";
+    if (paise>0) s += " and " + numberToWordsIndian(paise) + " Paise";
+    return s + " Only";
+  }
+
+  /* ---------- Prevent new lines in remark fields ---------- */
+  remarkDivs.forEach(remark => {
+    remark.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+      }
+    });
+    
+    // Prevent paste with new lines
+    remark.addEventListener('paste', function(e) {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, text.replace(/[\r\n]+/g, ' '));
+    });
+  });
+
+  /* ---------- Row factory ---------- */
+  function makeRow(i, text=""){
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const sl = document.createElement("div");
+    sl.className = "sl";
+    sl.textContent = i+1;
+
+    const input = document.createElement("div");
+    input.className = "input";
+    input.contentEditable = true;
+    input.textContent = text;
+
+    const result = document.createElement("div");
+    result.className = "result";
+
+    // live evaluation when typing
+    input.addEventListener("input", render);
+
+    // Enter => new row (if not empty)
+    input.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        e.preventDefault();
+        if(input.textContent.trim() !== ""){
+          container.appendChild(makeRow(container.children.length));
+          updateSL();
+          render();
+          const lastInput = container.lastChild.querySelector(".input");
+          lastInput.focus();
+        }
+      }
+
+      // Backspace on empty => delete row (keep at least 1)
+      if(e.key === "Backspace" && input.textContent.trim() === ""){
+        if(container.children.length > 1){
+          e.preventDefault();
+          const prev = row.previousElementSibling || row.nextElementSibling;
+          row.remove();
+          updateSL();
+          render();
+          // focus & caret at END on the neighbor row
+          if(prev){
+            const target = prev.querySelector(".input");
+            target.focus();
+            setCaretToEnd(target); // ✨ caret end me blink
+          }
+        }
+      }
+    });
+
+    row.appendChild(sl);
+    row.appendChild(input);
+    row.appendChild(result);
+    return row;
+  }
+
+  function updateSL(){
+    [...container.children].forEach((row,i)=>{
+      row.querySelector(".sl").textContent = i+1;
+    });
+  }
+
+  function render(){
+    let grand=0;
+    // FIX: Uncommented this code to include previous balance.
+    const previousBalance = parseFloat(previousBalanceEl.textContent) || 0;
+    grand += previousBalance;
+
+    [...container.children].forEach(row=>{
+      const text = row.querySelector(".input").textContent;
+      const resBox = row.querySelector(".result");
+      let val=0;
+      const m=text.match(/([0-9.\s()+\-*/^]+)$/); // trailing clean expression only
+      if(m){
+        const expr=m[1].trim();
+        if(expr && /[0-9]/.test(expr)) val=evalExpr(expr);
+      }
+      resBox.textContent = val ? val.toLocaleString('en-IN') : "";
+      grand += (val||0);
+    });
+
+    // numbers + words
+    totalBox.textContent = "Total = " + (Number.isInteger(grand) ? grand.toLocaleString('en-IN') : grand.toLocaleString('en-IN'));
+    totalWordsBox.textContent = "In Words: " + totalInWords(grand);
+  }
+
+  // Save as Image (PNG)
+  async function saveAsImage(){
+    const paper = document.getElementById("paper");
+    // wait a frame to ensure fonts/layout settled
+    await new Promise(r=>requestAnimationFrame(r));
+    const canvas = await html2canvas(paper, {backgroundColor:null, scale:2});
+    const link = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
+    link.download = `invoice-${stamp}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+  saveBtn.addEventListener("click", saveAsImage);
+
+  // FIX: Uncommented this event listener to make the button work.
+  clearBtn.addEventListener("click",function(){
+    container.innerHTML="";
+    container.appendChild(makeRow(0));
+    previousBalanceEl.textContent="";
+    render();
+  });
+  
+  // FIX: Uncommented this event listener to update the total automatically.
+  // Validation: only digits, max 10
+previousBalanceEl.addEventListener("input", function(e){
+  let val = previousBalanceEl.textContent.replace(/\D/g, ""); // सिर्फ digit
+  if(val.length > 10) val = val.slice(0,10); // max 10
+  if(previousBalanceEl.textContent !== val){
+    previousBalanceEl.textContent = val;
+    setCaretToEnd(previousBalanceEl); // caret end me blink रहे
+  }
+  render();
+});
+  // start with ONLY 1 default row
+  container.appendChild(makeRow(0));
+  render();
+})();
+ 
+</script>
+
+</body>
+</html>
