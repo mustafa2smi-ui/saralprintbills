@@ -9,7 +9,8 @@ const urlsToCache = [
   '/saral.jpg',
   '/keypad.jpg',
   '/notepad.png',
-  '/contact.html'
+  '/contact.html',
+  'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'
 ];
 
 // Install event
