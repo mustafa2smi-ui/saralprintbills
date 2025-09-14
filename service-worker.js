@@ -6,7 +6,10 @@ const urlsToCache = [
   '/keypad.html',
   '/about.html',
   '/manifest.json',
-  '/saral.jpg'
+  '/saral.jpg',
+  '/keypad.jpg',
+  '/notepad.png',
+  '/contact.html'
 ];
 
 // Install event
