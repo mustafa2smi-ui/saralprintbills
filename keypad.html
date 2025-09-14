@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Premium Billing System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: #333;
+  min-height: 100vh;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.header {
+  background: linear-gradient(to right, #4b6cb7, #182848);
+  color: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin-bottom: 15px;
+  flex-direction:row;
+}
+
+.input-row input {
+  padding: 6px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  /*flex: 1;*/
+  background: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.header-inputs input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 154, 255, 0.5);
+}
+
+.datetime {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 8px;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.table-container {
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 15px 0;
+  background: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #ff7e5f;
+  color: white;
+  padding: 12px 8px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 2;
+  font-weight: 600;
+}
+
+td {
+  padding: 10px 8px;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+  word-break: keep-all;
+  white-space: normal;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f0f8ff;
+}
+
+.totals {
+  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  display: block;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 15px 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin-bottom: 15px;
+  flex-direction: row;
+  flex:1;
+}
+
+.input-row input {
+  padding: 6px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  
+
+  background: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.input-row input:focus {
+  outline: none;
+  border-color: #4facfe;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
+}
+  .input-row input[readonly] {
+
+  background-color: #f8f9fa;
+
+  font-weight: 600;
+
+  color: #495057;
+
+}
+.input-qtrt{
+  display: flex;
+
+  /*justify-content: space-between;*/
+
+  gap: 6px;
+
+  margin-bottom: 15px;
+
+  flex-direction: row;
+
+  flex:1;
+  }
+  .input-qtrt input{
+    padding: 12px;
+
+  font-size: 16px;
+
+  border: 2px solid #e0e0e0;
+
+  border-radius: 12px;
+
+  
+
+  background: white;
+
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+
+  transition: all 0.3s ease;
+
+
+    }
+  
+.input-qtrt input:focus{ outline: none;
+
+  border-color: #4facfe;
+
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.3);
+  }
+.input-qtrt input[readonly] {
+
+  background-color: #f8f9fa;
+
+  font-weight: 600;
+
+  color: #495057;
+
+}
+.keypad-container {
+  background: linear-gradient(to bottom, #f5f7fa, #c3cfe2);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) ;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.keypad button {
+  padding: 16px 8px;
+  font-size: 20px;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keypad button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.keypad button.number {
+  background: linear-gradient(white, white);
+  color: #444;
+}
+
+.keypad button.action {
+  background: linear-gradient(to right, #ff758c, #ff7eb3);
+  color: white;
+  font-size: 16px;
+}
+
+.keypad button.enter {
+  background: linear-gradient(to right, #42e695, #3bb2b8);
+  color: white;
+  grid-column: span 1;
+}
+
+.keypad button.clear {
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+  color: white;
+}
+
+.keypad button.save {
+  background: linear-gradient(to right, #ffcc67, #ff6f61);
+  color: white;
+}
+
+.keypad button.print {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+}
+
+.current-input {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+.current-input span {
+  background: #e3f2fd;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* Bill Template for Saving */
+.bill-template {
+  display: none;
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.bill-header {
+  text-align: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed #ccc;
+}
+
+.bill-header h2 {
+  color: #4b6cb7;
+  margin-bottom: 10px;
+}
+
+.bill-customer-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.bill-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.bill-table th {
+  background: #ff7e5f;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.bill-table td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.bill-totals {
+  text-align: right;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px;
+  border-top: 2px dashed #ccc;
+  margin-top: 10px;
+}
+
+.bill-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  font-style: italic;
+  color: #777;
+}
+
+@media (max-width: 500px) {
+  .container {
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  .keypad button {
+    padding: 14px 6px;
+    font-size: 18px;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .input-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .input-row input {
+    width: 100%;
+  }
+}
+
+/* Scrollbar styling */
+.table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #a5a5a5;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1><i class="fas fa-receipt"></i> Premium Billing System</h1>
+    <div class="header-inputs">
+      <input type="text" id="custName" placeholder="Customer Name">
+      <input type="tel" id="custcontact" placeholder="Contact Number">
+    </div>
+    <div class="datetime" id="dateTime"></div>
+  </div>
+
+  <div class="table-container">
+    <table id="billTable">
+      <thead>
+        <tr>
+          <th>SL</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  
+  <div class="totals">
+    <span>Total Qty: <span id="totalQty">0.00</span></span>
+    <span> ₹ <span id="total">0.00</span></span>
+  </div>
+
+  <div class="input-row">
+    <input type="text" id="item" placeholder="Item Name (Optional)" style="width:180px">
+    </div>
+    <div class="input-qtrt">
+    <input type="text" id="qty" placeholder="Qty" readonly style="width:90px">
+    <input type="text" id="rate" placeholder="Rate" readonly style="width:70px">
+  </div>
+  <!--
+  <div class="current-input">Current Input: <span id="currentInputDisplay">Qty</span></div>
+  -->
+  <div class="keypad-container">
+    <div class="keypad">
+      <button class="number" onclick="keyPress('7')">7</button>
+      <button class="number" onclick="keyPress('8')">8</button>
+      <button class="number" onclick="keyPress('9')">9</button>
+      <button class="action" onclick="backspace()"><i class="fas fa-backspace"></i></button>
+      
+      <button class="number" onclick="keyPress('4')">4</button>
+      <button class="number" onclick="keyPress('5')">5</button>
+      <button class="number" onclick="keyPress('6')">6</button>
+      <button class="action enter" onclick="enterAction()"> <i class="fas fa-arrow-right"></i></button>
+      
+      <button class="number" onclick="keyPress('1')">1</button>
+      <button class="number" onclick="keyPress('2')">2</button>
+      <button class="number" onclick="keyPress('3')">3</button>
+      <button class="action" onclick="deleteItem()" id="deleteBtn"> <i class="fas fa-trash"></i></button>
+      
+      <button class="number" onclick="keyPress('0')">0</button>
+      <button class="number" onclick="keyPress('.')">.</button>
+      <button class="action clear" onclick="clearInput()">C <i class="fas fa-times"></i></button>
+      <button class="action" onclick="clearTable()"><i class="fas fa-broom"></i></button>
+      
+      <button class="action save" onclick="saveBill()"><i class="fas fa-save"></i></button>
+      <button class="csv" onclick="exportCSV()">CSV</button>
+      <button class="action print" onclick="printBill()"><i class="fas fa-print"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden bill template for saving/printing -->
+<div id="billTemplate" class="bill-template">
+  <div class="bill-header">
+    <h2>INVOICE</h2>
+    <div id="billDateTime"></div>
+  </div>
+  
+  <div class="bill-customer-info">
+    <div>
+      <strong>Customer:</strong> <span id="billCustomerName"></span>
+    </div>
+    <div>
+      <strong>Contact:</strong> <span id="billCustomerContact"></span>
+    </div>
+  </div>
+  
+  <table class="bill-table" id="billTableTemplate">
+    <thead>
+      <tr>
+        <th>SL</th>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  
+  <div class="bill-totals">
+    Total: ₹ <span id="billTotal">0.00</span>
+  </div>
+  
+  <div class="bill-footer">
+    Thank you for your business!
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+let currentInput = 'qty';
+let editIndex = null;
+
+// Set up input focus
+document.getElementById('qty').onclick = () => setCurrentInput('qty');
+document.getElementById('rate').onclick = () => setCurrentInput('rate');
+
+function setCurrentInput(input) {
+  currentInput = input;
+  document.getElementById('currentInputDisplay').textContent = 
+    input === 'qty' ? 'Quantity' : (input === 'rate' ? 'Rate' : input);
+}
+
+function keyPress(val) {
+  if (!currentInput) return;
+  
+  let inputEl = document.getElementById(currentInput);
+  let currentValue = inputEl.value;
+  
+  // Handle decimal input
+  if (val === '.') {
+    if (currentValue.includes('.')) return;
+    if (currentValue === '') {
+      inputEl.value = '0.';
+      if (currentInput === 'qty' || currentInput === 'rate') calcAmount();
+      return;
+    }
+  }
+  
+  // Handle leading zero
+  if (currentValue === '0' && val !== '.') {
+    inputEl.value = val;
+  } else {
+    inputEl.value = currentValue + val;
+  }
+  
+  if (currentInput === 'qty' || currentInput === 'rate') calcAmount();
+}
+
+function clearInput() {
+  if (!currentInput) return;
+  document.getElementById(currentInput).value = '';
+  if (currentInput === 'qty' || currentInput === 'rate') calcAmount();
+}
+
+function enterAction() {
+  if (currentInput === 'qty') {
+    setCurrentInput('rate');
+    document.getElementById('rate').focus();
+  } else if (currentInput === 'rate') {
+    if (editIndex !== null) updateItem();
+    else addItem();
+    setCurrentInput('qty');
+    document.getElementById('qty').focus();
+  }
+}
+
+function calcAmount() {
+  let qty = parseFloat(document.getElementById('qty').value) || 0;
+  let rate = parseFloat(document.getElementById('rate').value) || 0;
+  return (qty * rate).toFixed(2);
+}
+
+function addItem() {
+  let item = document.getElementById('item').value.trim() || "Item";
+  let qty = parseFloat(document.getElementById('qty').value);
+  let rate = parseFloat(document.getElementById('rate').value);
+  
+  if (qty <= 0 || rate <= 0 || isNaN(qty) || isNaN(rate)) {
+    alert('Please enter a valid Quantity and Rate (must be greater than 0).');
+    return;
+  }
+
+  let table = document.getElementById('billTable').querySelector('tbody');
+  let row = table.insertRow();
+  let amt = (qty * rate).toFixed(2);
+
+  row.insertCell(0).innerText = table.rows.length;
+  row.insertCell(1).innerText = item;
+  row.insertCell(2).innerText = qty;
+  row.insertCell(3).innerText = rate.toFixed(2);
+  row.insertCell(4).innerText = amt;
+
+  row.onclick = () => selectRow(row);
+
+  clearFields();
+  updateTotal();
+
+  // Auto scroll to bottom
+  let container = document.querySelector(".table-container");
+  if (container) {
+    container.scrollTop = container.scrollHeight;
+  }
+}
+
+function selectRow(row) {
+  editIndex = row.rowIndex - 1;
+  let cells = row.cells;
+  document.getElementById('item').value = cells[1].innerText;
+  document.getElementById('qty').value = cells[2].innerText;
+  document.getElementById('rate').value = cells[3].innerText;
+  document.getElementById('deleteBtn').disabled = false;
+  setCurrentInput('qty');
+  document.getElementById('qty').focus();
+}
+
+function updateItem() {
+  if (editIndex === null) return;
+  let table = document.getElementById('billTable').querySelector('tbody');
+  let row = table.rows[editIndex];
+  row.cells[1].innerText = document.getElementById('item').value;
+  row.cells[2].innerText = document.getElementById('qty').value;
+  row.cells[3].innerText = document.getElementById('rate').value;
+  row.cells[4].innerText = calcAmount();
+  clearFields();
+  editIndex = null;
+  document.getElementById('deleteBtn').disabled = true;
+  updateTotal();
+}
+
+function deleteItem() {
+  if (editIndex === null) {
+    alert('Please select an item to delete by clicking on it in the table.');
+    return;
+  }
+  
+  let table = document.getElementById('billTable').querySelector('tbody');
+  table.deleteRow(editIndex);
+  
+  // Update serial numbers
+  for (let i = 0; i < table.rows.length; i++) {
+    table.rows[i].cells[0].innerText = i + 1;
+  }
+  
+  clearFields();
+  editIndex = null;
+  document.getElementById('deleteBtn').disabled = true;
+  updateTotal();
+}
+
+function clearFields() {
+  document.getElementById('item').value = '';
+  document.getElementById('qty').value = '';
+  document.getElementById('rate').value = '';
+  document.getElementById('qty').focus();
+}
+
+function clearTable() {
+  if (confirm('Are you sure you want to clear the entire bill?')) {
+    document.getElementById('billTable').querySelector('tbody').innerHTML = '';
+    updateTotal();
+    clearFields();
+  }
+}
+
+function updateTotal() {
+  let table = document.getElementById('billTable').querySelector('tbody');
+  let totalQty = 0;
+  let total = 0;
+  
+  for (let row of table.rows) {
+    totalQty += parseFloat(row.cells[2].innerText) || 0;
+    total += parseFloat(row.cells[4].innerText) || 0;
+  }
+  
+  document.getElementById('totalQty').innerText = totalQty.toFixed(2);
+  document.getElementById('total').innerText = total.toFixed(2);
+}
+
+function prepareBillTemplate() {
+  // Get customer info
+  const customerName = document.getElementById('custName').value || 'Walk-in Customer';
+  const customerContact = document.getElementById('custcontact').value || 'N/A';
+  const dateTime = document.getElementById('dateTime').textContent;
+  const total = document.getElementById('total').textContent;
+  
+  // Update bill template
+  document.getElementById('billCustomerName').textContent = customerName;
+  document.getElementById('billCustomerContact').textContent = customerContact;
+  document.getElementById('billDateTime').textContent = dateTime;
+  document.getElementById('billTotal').textContent = total;
+  
+  // Copy table content
+  const originalTable = document.getElementById('billTable');
+  const templateTable = document.getElementById('billTableTemplate');
+  templateTable.querySelector('tbody').innerHTML = originalTable.querySelector('tbody').innerHTML;
+}
+/*
+function saveBill() {
+  if (document.getElementById('billTable').querySelector('tbody').rows.length === 0) {
+    alert('Cannot save an empty bill.');
+    return;
+  }
+  
+  prepareBillTemplate();
+  
+  html2canvas(document.getElementById("billTemplate")).then(canvas => {
+    const link = document.createElement("a");
+    const now = new Date();
+    const timestamp = now.toLocaleDateString().replace(/\//g, "-") + "_" + 
+                      now.toLocaleTimeString().replace(/:/g, "-").replace(/\s/g, "");
+    link.download = `Bill_${timestamp}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+}*/
+
+function saveBill(){
+  let container=document.createElement("div");
+  container.innerHTML="<h3>Invoice</h3>"+
+    "<p>Customer: "+(document.getElementById("custName").value||"N/A")+
+    " | Contact: "+(document.getElementById("custcontact").value||"N/A")+"</p>"+
+    document.getElementById("billTable").outerHTML+
+    "<p><b>Total Qty:</b> "+document.getElementById("totalQty").innerText+
+    " | <b>Total:</b> ₹"+document.getElementById("total").innerText+"</p>";
+  document.body.appendChild(container);
+  html2canvas(container).then(canvas=>{
+    let link=document.createElement("a");
+    link.download="Bill.png";
+    link.href=canvas.toDataURL();
+    link.click();
+    container.remove();
+  });
+}
+function printBill() {
+  if (document.getElementById('billTable').querySelector('tbody').rows.length === 0) {
+    alert('Cannot print an empty bill.');
+    return;
+  }
+  
+  prepareBillTemplate();
+  
+  const billContent = document.getElementById('billTemplate').innerHTML;
+  const originalContent = document.body.innerHTML;
+  
+  document.body.innerHTML = billContent;
+  window.print();
+  document.body.innerHTML = originalContent;
+  location.reload();
+}
+
+function backspace() {
+  let input = document.getElementById(currentInput);
+  input.value = input.value.slice(0, -1);
+  if (currentInput === 'qty' || currentInput === 'rate') calcAmount();
+}
+
+// Event listener for item input
+document.getElementById('item').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    this.blur();
+    document.getElementById('qty').focus();
+    setCurrentInput('qty');
+  }
+});
+
+// Date and time function
+function updateDateTime() {
+  let now = new Date();
+  let date = now.toLocaleDateString('en-GB');
+  let time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('dateTime').textContent = date + ' | ' + time;
+}
+
+// Initialize
+window.onload = () => {
+  document.getElementById('qty').focus();
+  setCurrentInput('qty');
+  updateDateTime();
+  setInterval(updateDateTime, 60000); // Update time every minute
+};
+  function exportCSV(){
+
+  let rows=document.querySelectorAll("#billTable tr");
+
+  let csv=[];
+
+  csv.push(["Customer",document.getElementById("custName").value,
+
+           "Contact",document.getElementById("custcontact").value]);
+
+  rows.forEach(r=>{
+
+    let cols=[...r.querySelectorAll("th,td")].map(c=>c.innerText);
+
+    csv.push(cols);
+
+  });
+
+  csv.push(["Total Qty",document.getElementById("totalQty").innerText,
+
+            "Total",document.getElementById("total").innerText]);
+
+  let csvContent=csv.map(e=>e.join(",")).join("\n");
+
+  let blob=new Blob([csvContent],{type:"text/csv"});
+
+  let link=document.createElement("a");
+
+  link.href=URL.createObjectURL(blob);
+
+  link.download="Bill.csv";
+
+  link.click();
+
+}
+</script>
+</body>
+</html>
