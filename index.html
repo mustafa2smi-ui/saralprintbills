@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- ✅ Title -->
+  <title>SaralPrintBills - Free Hindi Bill Generator for Shopkeepers</title>
+
+  <!-- ✅ SEO Meta -->
+  <meta name="description" content="SaralPrintBills एक फ्री और आसान हिंदी बिल जनरेटर टूल है। दुकानदार, किराना स्टोर और जनरल स्टोर के लिए तुरंत बिल बनाएं, सेव करें और प्रिंट करें — बिना किसी लॉगिन या डेटा रिस्क के।">
+  <meta name="keywords" content="saralprintbills, बिलिंग कैलकुलेटर, free bill maker, दुकानदार बिल ऐप, किराना स्टोर बिलिंग, हिंदी इनवॉइस टूल, invoice generator, billing app in hindi">
+  <meta name="author" content="SaralPrintBills">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Hindi">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f9ff;
+      color: #333;
+    }
+
+    h1, h2 {
+      color: #007BFF;
+    }
+
+    .subtext {
+      text-align: center;
+      color: #555;
+      margin: 10px 20px 30px 20px;
+    }
+
+    /* ✅ Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: linear-gradient(90deg, #007BFF, #00c6ff);
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid #0056b3;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    .navbar a:hover {
+      background: white;
+      color: #007BFF;
+      transform: scale(1.1);
+    }
+
+    /* ✅ Tool Cards */
+    .tool-container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .tool-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: 0.3s ease-in-out;
+    }
+    .tool-card:hover {
+      transform: scale(1.01);
+    }
+    .tool-card a.button {
+      display: inline-block;
+      padding: 12px 20px;
+      background: #28a745;
+      color: white;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-top: 15px;
+      transition: 0.3s;
+    }
+    .tool-card a.button:hover {
+      background: #218838;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+    }
+
+    /* ✅ Footer */
+    .footer {
+      background: linear-gradient(90deg, #007BFF, #00c6ff);
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+      margin-top: 40px;
+      border-top: 3px solid #0056b3;
+    }
+    .footer a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+    }
+    .footer a:hover {
+      color: yellow;
+      text-decoration: underline;
+    }
+
+    @media(max-width: 600px){
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navigation Bar -->
+  <div class="navbar">
+    <a href="index.html">🏠 Home</a>
+    <a href="about.html">ℹ️ About Us</a>
+    <a href="privacy.html">🔒 Privacy Policy</a>
+    <a href="contact.html">📞 Contact Us</a>
+  </div>
+
+  <h1 style="text-align:center; margin-top:20px;">🧾 सरल प्रिंट बिल्स</h1>
+  <p class="subtext">आपका अपना फ़ास्ट और फ्री ऑनलाइन बिलिंग टूल।</p>  
+  <p class="subtext"> नो लॉगिन • नो सब्सक्रिप्शन • नो डाटा रिस्क — बस पेज पर जाएं और तुरंत बिल बनायें</p>
+  
+  <div class="tool-container">
+
+    <!-- नोटपैड कैलकुलेटर -->
+    <div class="tool-card" style="text-align:center">
+      <p>नोटपेड कैलकुलेटर</p>
+      <a href="#"><img src="https://via.placeholder.com/500x300.png?text=Notepad+Billing" alt="Notepad Billing Tool" style="max-width:100%; border-radius:10px;"></a>
+      <a class="button" href="#">➕ अभी बिल बनाना शुरू करें</a>
+    </div>
+
+    <!-- कीपैड बिल टेबल -->
+    <div class="tool-card" style="text-align:center">
+      <p>किपैड बिल टेबल</p>
+      <a href="#"><img src="https://via.placeholder.com/500x300.png?text=Keypad+Billing" alt="Keypad Billing Tool" style="max-width:100%; border-radius:10px;"></a>
+      <a class="button" href="#">➕ अभी बिल बनाना शुरू करें</a>
+    </div>
+
+    <!-- सेव और प्रिंट -->
+    <div class="tool-card">
+      <h2>🖨️ बिल को सेव और प्रिंट कैसे करें?</h2>
+      <p>बिल बनाने के बाद "Save as Image" बटन पर क्लिक करें और पूरा बिल JPEG फॉर्मेट में सेव करें। फिर गैलरी से खोलें और प्रिंट करें — बिना किसी महंगे सॉफ्टवेयर या प्रिंटर के।</p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="tool-card">
+      <h2>📌 अक्सर पूछे जाने वाले सवाल (FAQ)</h2>
+      <ul>
+        <li><strong>क्या ये टूल फ्री है?</strong> – हां, पूरी तरह फ्री और ऑफलाइन भी इस्तेमाल किया जा सकता है।</li>
+        <li><strong>क्या डेटा सेव होता है?</strong> – नहीं, आपकी प्राइवेसी सुरक्षित है। डेटा सिर्फ आपके डिवाइस में रहता है।</li>
+        <li><strong>क्या मोबाइल पर ऐप इंस्टॉल ज़रूरी है?</strong> – नहीं, आप "Add to Home Screen" करके ऐप जैसा उपयोग कर सकते हैं।</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ✅ Footer -->
+  <div class="footer">
+    &copy; 2025 SaralPrintBills | Powered by Blogger <br>
+    <a href="index.html">Home</a> | 
+    <a href="about.html">About Us</a> | 
+    <a href="privacy.html">Privacy Policy</a> | 
+    <a href="contact.html">Contact Us</a>
+  </div>
+
+</body>
+</html>
